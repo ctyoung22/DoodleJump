@@ -5,10 +5,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class GameView extends BorderPane {
+    GamePane jumpPane;
     Button quitBtn;
 
     public GameView() {
-        BorderPane jumpPane = new BorderPane();
+        jumpPane = new GamePane();
         Label scoreLabel = new Label("Total Score: 0");
         jumpPane.setTop(scoreLabel);
 
@@ -25,6 +26,10 @@ public class GameView extends BorderPane {
 
     public Button getQuitBtn() {
         return this.quitBtn;
+    }
+
+    public void updateView(double doodX, double doodY) {
+        jumpPane.updateDoodlePosition(doodX, doodY);
     }
 
 }
