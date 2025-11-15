@@ -5,6 +5,7 @@ public class GamePane extends BorderPane{
 
     public GamePane() {
         dood = new Doodle();
+        getChildren().add(dood);
     }
 
     public void updateDoodlePosition(double doodX, double doodY) {

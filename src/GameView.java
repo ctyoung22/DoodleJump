@@ -10,8 +10,10 @@ public class GameView extends BorderPane {
 
     public GameView() {
         jumpPane = new GamePane();
+
+        HBox scorePane = new HBox();
         Label scoreLabel = new Label("Total Score: 0");
-        jumpPane.setTop(scoreLabel);
+        scorePane.getChildren().add(scoreLabel);
 
         HBox menuPane = new HBox();
         quitBtn = new Button("Quit");
@@ -20,6 +22,7 @@ public class GameView extends BorderPane {
         menuPane.setPrefHeight(100);
         menuPane.setStyle("-fx-background-color: #c4c8cc");
 
+        setTop(scorePane);
         setCenter(jumpPane);
         setBottom(menuPane);
     }
