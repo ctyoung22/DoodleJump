@@ -10,31 +10,14 @@ import javafx.stage.Stage;
 public class App extends Application{
 
     public void start(Stage primaryStage) {
-        
+        GameModel model = new GameModel();
+        GameView view = new GameView();
+        GameController controller = new GameController(model, view);
 
-        BorderPane gamePane = new BorderPane();
-        BorderPane jumpPane = new BorderPane();
-        Label scoreLabel = new Label("Total Score: 0");
-        jumpPane.setTop(scoreLabel);
-
-        HBox menuPane = new HBox();
-        Button quitBtn = new Button("Quit");
-        quitBtn.setOnAction(e -> {
-            System.exit(0);
-        });
-        menuPane.getChildren().add(quitBtn);
-        menuPane.setAlignment(Pos.CENTER);
-        menuPane.setPrefHeight(100);
-        menuPane.setStyle("-fx-background-color: #c4c8cc");
-
-        gamePane.setCenter(jumpPane);
-        gamePane.setBottom(menuPane);
-
-        Scene mainScene = new Scene(gamePane, 400, 600);
+        Scene mainScene = new Scene(view, 400, 600);
         primaryStage.setScene(mainScene);
         primaryStage.setResizable(false);
         primaryStage.show();
-        
     }
 
     public static void main(String[] args) throws Exception {
