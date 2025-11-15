@@ -5,12 +5,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class GameView extends BorderPane {
+    GamePane jumpPane;
     Button quitBtn;
 
     public GameView() {
-        BorderPane jumpPane = new BorderPane();
+        jumpPane = new GamePane();
+
+        HBox scorePane = new HBox();
         Label scoreLabel = new Label("Total Score: 0");
-        jumpPane.setTop(scoreLabel);
+        scorePane.getChildren().add(scoreLabel);
 
         HBox menuPane = new HBox();
         quitBtn = new Button("Quit");
@@ -19,12 +22,17 @@ public class GameView extends BorderPane {
         menuPane.setPrefHeight(100);
         menuPane.setStyle("-fx-background-color: #c4c8cc");
 
+        setTop(scorePane);
         setCenter(jumpPane);
         setBottom(menuPane);
     }
 
     public Button getQuitBtn() {
         return this.quitBtn;
+    }
+
+    public void updateView(double doodX, double doodY) {
+        jumpPane.updateDoodlePosition(doodX, doodY);
     }
 
 }
