@@ -35,4 +35,17 @@ public class GameView extends BorderPane {
         jumpPane.updateDoodlePosition(doodX, doodY);
     }
 
+    // adds 10 random platforms for testing
+    public void addPlatform(){
+        for(int i = 0; i < 10; i++){
+            double platX = Math.random() * (400 + 1);
+            double platY = Math.random() * (500 + 1);
+            jumpPane.updatePlatformPostition(platX, platY);
+        }
+    }
+
+    public boolean intersect(){
+        return jumpPane.intersection();
+    }
+
 }
