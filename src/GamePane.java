@@ -1,9 +1,12 @@
+import java.util.ArrayList;
+
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Shape;
 
 public class GamePane extends BorderPane{
     Doodle dood;
-    RegularPlatform regPlat;
+    Platform topPlatform;
+
 
     public GamePane() {
         dood = new Doodle();
@@ -15,18 +18,28 @@ public class GamePane extends BorderPane{
         dood.setLayoutY(doodY);
     }
 
-    // adds the random platforms to the random points
-    public void updatePlatformPostition(double x, double y){
-        regPlat = new RegularPlatform();
-        regPlat.setLayoutX(x);
-        regPlat.setLayoutY(y);
-        getChildren().add(regPlat);
+    public void addPlatform(double platX, double platY) {
+        Platform plat = new RegularPlatform(platX, platY);
+        getChildren().add(plat);
     }
 
-    public boolean intersection(){
-        Shape intersection = Shape.intersect(dood, regPlat);
-        return intersection.getBoundsInLocal().getWidth() >= 0 &&
-            intersection.getBoundsInLocal().getHeight() >= 0;
+/*     public void generatePlatforms() {
+        topPlatform = locateTopPlatform();
+        while(topPlatform.getLayoutY() < 500 && topPlatform.getLayoutY() > 0) {
+            double lowX = Math.max(0, topPlatform.getLayoutX() - 100);
+            double highX = Math.min(400, topPlatform.getLayoutX() + 100);
+            double newPlatX = Math.random() * (highX - lowX) + lowX;
+
+            double lowY = topPlatform.getLayoutY() - 20;
+            double highY = topPlatform.getLayoutY() - 100;
+            double newPlatY = Math.random() * (highY - lowY) + lowY;
+
+            addPlatform(newPlatX, newPlatY);
+            topPlatform = locateTopPlatform();
+        }
     }
-    
+
+    public Platform locateTopPlatform() {
+        return platforms.get(platforms.size() - 1);
+    } */
 }

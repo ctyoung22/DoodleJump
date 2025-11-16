@@ -7,26 +7,26 @@ public class GameController {
     GameModel model;
     GameView view;
     Timeline doodLoc;
+
     
     public GameController(GameModel model, GameView view) {
         this.model = model;
         this.view = view;
         setQuitAction();
-        setupDoodle();
-        doodLoc = new Timeline(new KeyFrame(Duration.millis(20), e -> setupMovement()));
+        setupPlatform();
+        doodLoc = new Timeline(new KeyFrame(Duration.millis(20), e -> setupDoodleMovement()));
         doodLoc.setCycleCount(Timeline.INDEFINITE);
         doodLoc.play();
         setupKeyControls();
-        setupPlatform();
+        
     }
 
-    public void setupMovement(){
+    public void setupDoodleMovement() {
         model.updatePosition(view.getWidth(), view.getHeight(),0);
         view.updateView(model.getDoodX(), model.getDoodY());
-        handleIntersection();
     }
 
-    public void setupKeyControls(){
+    public void setupKeyControls() {
         view.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.LEFT){
                 model.updatePosition(view.getWidth(), view.getHeight(), -5);
@@ -43,19 +43,12 @@ public class GameController {
         });
     }
 
-    public void setupDoodle() {
-        view.updateView(model.getDoodX(), model.getDoodY());
-    }
-
     public void setupPlatform() {
-        view.addPlatform();
-    }
-
-    public void handleIntersection() {
-        boolean intersect = view.intersect();
-        if(intersect){
-            model.bounceDoodle();
-            System.out.println("Bounce");
+        model.addBasePlatform();
+        view.updatePlatform(model.getTopPlatX(), model.getTopPlatY());
+        while(model.getTopPlatY() < 500 && model.getTopPlatY() > 0) {
+            model.updateTopPlatform();
+            view.updatePlatform(model.getTopPlatX(), model.getTopPlatY());
         }
     }
 }

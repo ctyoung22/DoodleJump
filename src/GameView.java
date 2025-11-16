@@ -7,9 +7,11 @@ import javafx.scene.layout.HBox;
 public class GameView extends BorderPane {
     GamePane jumpPane;
     Button quitBtn;
+    
 
     public GameView() {
         jumpPane = new GamePane();
+        jumpPane.setMinHeight(500);
 
         HBox scorePane = new HBox();
         Label scoreLabel = new Label("Total Score: 0");
@@ -35,17 +37,13 @@ public class GameView extends BorderPane {
         jumpPane.updateDoodlePosition(doodX, doodY);
     }
 
-    // adds 10 random platforms for testing
-    public void addPlatform(){
-        for(int i = 0; i < 10; i++){
-            double platX = Math.random() * (400 + 1);
-            double platY = Math.random() * (500 + 1);
-            jumpPane.updatePlatformPostition(platX, platY);
-        }
+    public void updatePlatform(double platX, double platY) {
+        jumpPane.addPlatform(platX, platY);
     }
 
-    public boolean intersect(){
-        return jumpPane.intersection();
+    public GamePane getGamePane() {
+        return this.jumpPane;
     }
+
 
 }
