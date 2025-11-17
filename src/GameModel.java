@@ -79,7 +79,7 @@ public class GameModel {
 
     public void generatePlatforms() {
         topPlat = platforms.get(platforms.size() - 1);
-        while(getTopPlatY() < 500 && getTopPlatY() > 0) {
+        while(getTopPlatY() < 500 && getTopPlatY() > - 100) {
             double lowX = Math.max(0, getTopPlatX() - 100);
             double highX = Math.min(400, getTopPlatX() + 100);
             double newPlatX = Math.random() * (highX - lowX) + lowX;
@@ -88,7 +88,7 @@ public class GameModel {
             double highY = getTopPlatY() - 100;
             double newPlatY = Math.random() * (highY - lowY) + lowY;
 
-            topPlat = new RegularPlatform(newPlatX, newPlatY);
+            topPlat = getRandoPlat(newPlatX, newPlatY);
             topPlatX = newPlatX;
             topPlatY = newPlatY;
             platforms.add(topPlat);
@@ -101,6 +101,9 @@ public class GameModel {
             Platform plat = iter.next();
             if(plat.getPlatY() > viewHeight) {
                 iter.remove();
+                if(platforms.size() < 10){
+                    topPlatY = 0;
+                }
             }
         }
     }
@@ -120,5 +123,24 @@ public class GameModel {
             }
             doodY += scrollAmount;
         } 
+    }
+
+    public Platform getRandoPlat(double platX, double platY){
+        int randoNum = (int)(Math.random()*(6)+1);
+        System.out.println(randoNum);
+        Platform randoPlat;
+        if(randoNum > 3){
+            randoPlat = new RegularPlatform(platX, platY);
+        }
+        else if(randoNum == 2){
+            randoPlat = new ScrollingPlatform(platX, platY);
+        }
+        else if(randoNum == 3){
+            randoPlat = new DissapearingPlatform(platX, platY);
+        }
+        else{
+            randoPlat = new BouncyPlatform(platX, platY);
+        }
+        return randoPlat;
     }
 }

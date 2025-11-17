@@ -6,7 +6,7 @@ public class RegularPlatform extends Platform {
     private double platY;
 
     public RegularPlatform(double platX, double platY) {
-        super(platX, platY, Color.RED);
+        super(platX, platY, Color.BLACK);
     }
 
 }
