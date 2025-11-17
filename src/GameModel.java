@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameModel {
     double doodX = 200;
@@ -51,6 +52,7 @@ public class GameModel {
     public void updatePosition(double viewWidth, double viewHeight, int direction){
         moveDoodle(viewWidth, viewHeight, direction);
         generatePlatforms();
+        removePlatforms(viewHeight);
     }
 
     // For moving doodle with arrow keys
@@ -61,9 +63,6 @@ public class GameModel {
             if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0) {
                 velocity = reboundVel;
             }
-            /* if(doodY + 30 >= plat.getPlatY() && (doodX + 20 >= plat.getPlatX() && doodX <= plat.getPlatX() + 40)) {
-                
-            } */
         }
 
         velocity = velocity + gravity * duration;
@@ -77,15 +76,6 @@ public class GameModel {
             doodX = 0;
         }
     }
-    /*
-    // this is for part 11, got a little ahead of myself
-    public double doodleCheck(double velocity, double viewHeight){
-        double doodleMidHight;
-        if(doodY > viewHeight/2){
-            doodleMidHight = viewHeight/2 - doodY;
-            doodY = doodleMidHight;
-        }
-    }*/
 
     public void generatePlatforms() {
         topPlat = platforms.get(platforms.size() - 1);
@@ -103,5 +93,32 @@ public class GameModel {
             topPlatY = newPlatY;
             platforms.add(topPlat);
         }
+    }
+
+    public void removePlatforms(double viewHeight) {
+        Iterator<Platform> iter = platforms.iterator();
+        while(iter.hasNext()) {
+            Platform plat = iter.next();
+            if(plat.getPlatY() > viewHeight) {
+                iter.remove();
+            }
+        }
+    }
+
+    public boolean scrollCheck(double viewHeight) {
+        if(doodY < viewHeight/2){
+            return true;
+        }
+        return false;
+    }
+
+    public void scrollPlatforms(double viewHeight, double scrollAmount) {
+        while(doodY < viewHeight/2) {
+            for(Platform plat : platforms) {
+                plat.setLayoutY(plat.getLayoutY() + scrollAmount);
+                plat.platY += scrollAmount;
+            }
+            doodY += scrollAmount;
+        } 
     }
 }

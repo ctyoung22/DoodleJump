@@ -25,9 +25,13 @@ public class GameController {
     }
 
     public void setupDoodleMovement() {
-        model.updatePosition(view.getWidth(), view.getHeight(),0);
+        model.updatePosition(view.getWidth(), view.getGamePane().getHeight(),0);
         view.updateView(model.getDoodX(), model.getDoodY());
         updatePlatforms();
+        if(model.scrollCheck(view.getGamePane().getHeight())) {
+            model.scrollPlatforms(view.getGamePane().getHeight(), 0.5);
+            updatePlatforms();
+        }
     }
 
     public void setupKeyControls() {
@@ -52,7 +56,10 @@ public class GameController {
         for(Platform plat : platforms) {
             if(!view.getGamePane().getChildren().contains(plat)) {
                 view.renderPlatform(plat);
-            }  
+            }
+            if(!model.getPlatforms().contains(plat)) {
+                view.erasePlatform(plat);
+            }
         }
     }
 }

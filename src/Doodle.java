@@ -10,12 +10,4 @@ public class Doodle extends Rectangle {
         this.doodX = doodX;
         this.doodY = doodY;
     }
-
-    public double getDoodX() {
-        return doodX;
-    }
-
-    public double getDoodY() {
-        return doodY;
-    }
 }
