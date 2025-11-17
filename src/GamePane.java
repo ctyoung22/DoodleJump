@@ -5,11 +5,9 @@ import javafx.scene.shape.Shape;
 
 public class GamePane extends BorderPane{
     Doodle dood;
-    Platform topPlatform;
 
-
-    public GamePane() {
-        dood = new Doodle();
+    public void addDoodle(Doodle dood) {
+        this.dood = dood;
         getChildren().add(dood);
     }
 
@@ -18,28 +16,11 @@ public class GamePane extends BorderPane{
         dood.setLayoutY(doodY);
     }
 
-    public void addPlatform(double platX, double platY) {
-        Platform plat = new RegularPlatform(platX, platY);
+    public void addPlatform(Platform plat) {
         getChildren().add(plat);
     }
 
-/*     public void generatePlatforms() {
-        topPlatform = locateTopPlatform();
-        while(topPlatform.getLayoutY() < 500 && topPlatform.getLayoutY() > 0) {
-            double lowX = Math.max(0, topPlatform.getLayoutX() - 100);
-            double highX = Math.min(400, topPlatform.getLayoutX() + 100);
-            double newPlatX = Math.random() * (highX - lowX) + lowX;
-
-            double lowY = topPlatform.getLayoutY() - 20;
-            double highY = topPlatform.getLayoutY() - 100;
-            double newPlatY = Math.random() * (highY - lowY) + lowY;
-
-            addPlatform(newPlatX, newPlatY);
-            topPlatform = locateTopPlatform();
-        }
+    public void removePlatform(Platform plat) {
+        getChildren().remove(plat);
     }
-
-    public Platform locateTopPlatform() {
-        return platforms.get(platforms.size() - 1);
-    } */
 }

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
@@ -7,23 +9,25 @@ public class GameController {
     GameModel model;
     GameView view;
     Timeline doodLoc;
+    Platform topPlatform;
+    ArrayList<Platform> platforms = new ArrayList<>();
 
     
     public GameController(GameModel model, GameView view) {
         this.model = model;
         this.view = view;
         setQuitAction();
-        setupPlatform();
+        view.getGamePane().addDoodle(model.getDoodle());
         doodLoc = new Timeline(new KeyFrame(Duration.millis(20), e -> setupDoodleMovement()));
         doodLoc.setCycleCount(Timeline.INDEFINITE);
         doodLoc.play();
         setupKeyControls();
-        
     }
 
     public void setupDoodleMovement() {
         model.updatePosition(view.getWidth(), view.getHeight(),0);
         view.updateView(model.getDoodX(), model.getDoodY());
+        updatePlatforms();
     }
 
     public void setupKeyControls() {
@@ -43,12 +47,12 @@ public class GameController {
         });
     }
 
-    public void setupPlatform() {
-        model.addBasePlatform();
-        view.updatePlatform(model.getTopPlatX(), model.getTopPlatY());
-        while(model.getTopPlatY() < 500 && model.getTopPlatY() > 0) {
-            model.updateTopPlatform();
-            view.updatePlatform(model.getTopPlatX(), model.getTopPlatY());
+    public void updatePlatforms() {
+        platforms = model.getPlatforms();
+        for(Platform plat : platforms) {
+            if(!view.getGamePane().getChildren().contains(plat)) {
+                view.renderPlatform(plat);
+            }  
         }
     }
 }

@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class GameModel {
     double doodX = 200;
     double doodY = 300;
+    double basePlatX = 200;
+    double basePlatY = 350;
     double topPlatX = 200;
     double topPlatY = 350;
     int doodDX = 1;
@@ -11,8 +13,16 @@ public class GameModel {
     double duration = 0.015;
     double velocity = 0;
     double reboundVel = -200;
+    Doodle dood;
+    Platform basePlat;
+    Platform topPlat;
     ArrayList<Platform> platforms = new ArrayList<>();
 
+    public GameModel() {
+        dood = new Doodle(doodX, doodY);
+        basePlat = new RegularPlatform(basePlatX, basePlatY);
+        platforms.add(basePlat);
+    }
 
     public double getDoodX() {
         return doodX;
@@ -20,6 +30,10 @@ public class GameModel {
 
     public double getDoodY() {
         return doodY;
+    }
+
+    public Doodle getDoodle() {
+        return dood;
     }
     
     public double getTopPlatX() {
@@ -30,8 +44,13 @@ public class GameModel {
         return topPlatY;
     }
 
+    public ArrayList<Platform> getPlatforms() {
+        return platforms;
+    }
+
     public void updatePosition(double viewWidth, double viewHeight, int direction){
         moveDoodle(viewWidth, viewHeight, direction);
+        generatePlatforms();
     }
 
     // For moving doodle with arrow keys
@@ -39,9 +58,12 @@ public class GameModel {
     public void moveDoodle(double viewWidth, double viewHeight, int direction) {
 
         for(Platform plat : platforms) {
-            if(doodY + 30 >= plat.getLayoutY() && (doodX >= plat.getLayoutX() && doodX <= plat.getLayoutX() + 40)) {
+            if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0) {
                 velocity = reboundVel;
             }
+            /* if(doodY + 30 >= plat.getPlatY() && (doodX + 20 >= plat.getPlatX() && doodX <= plat.getPlatX() + 40)) {
+                
+            } */
         }
 
         velocity = velocity + gravity * duration;
@@ -65,22 +87,21 @@ public class GameModel {
         }
     }*/
 
-    public void addBasePlatform() {
-        Platform basePlat = new RegularPlatform(topPlatX, topPlatY);
-        platforms.add(basePlat);
+    public void generatePlatforms() {
+        topPlat = platforms.get(platforms.size() - 1);
+        while(getTopPlatY() < 500 && getTopPlatY() > 0) {
+            double lowX = Math.max(0, getTopPlatX() - 100);
+            double highX = Math.min(400, getTopPlatX() + 100);
+            double newPlatX = Math.random() * (highX - lowX) + lowX;
+
+            double lowY = getTopPlatY() - 20;
+            double highY = getTopPlatY() - 100;
+            double newPlatY = Math.random() * (highY - lowY) + lowY;
+
+            topPlat = new RegularPlatform(newPlatX, newPlatY);
+            topPlatX = newPlatX;
+            topPlatY = newPlatY;
+            platforms.add(topPlat);
+        }
     }
-
-    public void updateTopPlatform() {
-        double lowX = Math.max(0, topPlatX - 100);
-        double highX = Math.min(400, topPlatX + 100);
-        topPlatX = Math.random() * (highX - lowX) + lowX;
-
-        double lowY = topPlatY - 20;
-        double highY = topPlatY - 100;
-        topPlatY = Math.random() * (highY - lowY) + lowY;
-
-        Platform plat = new RegularPlatform(topPlatX, topPlatY);
-        platforms.add(plat);
-    }
-
 }
