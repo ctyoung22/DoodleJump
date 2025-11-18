@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
@@ -22,6 +23,7 @@ public class GameController {
         doodLoc.setCycleCount(Timeline.INDEFINITE);
         doodLoc.play();
         setupKeyControls();
+        trackScore();
     }
 
     public void setupDoodleMovement() {
@@ -68,5 +70,10 @@ public class GameController {
                 plat.setLayoutX(plat.getUpdatedX());
             }
         }
+    }
+
+    public void trackScore(){
+        IntegerProperty score = model.getBounces();
+        score.addListener(ov -> view.updateScore(score.getValue()));
     }
 }

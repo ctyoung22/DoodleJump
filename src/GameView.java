@@ -11,15 +11,14 @@ public class GameView extends BorderPane {
     Button quitBtn;
     Platform topPlatform;
     ArrayList<Platform> platforms = new ArrayList<>();
+    ScorePane scorePane;
     
 
     public GameView() {
         jumpPane = new GamePane();
         jumpPane.setMinHeight(500);
 
-        HBox scorePane = new HBox();
-        Label scoreLabel = new Label("Total Score: 0");
-        scorePane.getChildren().add(scoreLabel);
+        scorePane = new ScorePane();
 
         HBox menuPane = new HBox();
         quitBtn = new Button("Quit");
@@ -51,6 +50,10 @@ public class GameView extends BorderPane {
 
     public GamePane getGamePane() {
         return this.jumpPane;
+    }
+
+    public void updateScore(int score){
+        scorePane.updateLabel(score);
     }
 
 }

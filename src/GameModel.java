@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class GameModel {
     double doodX = 200;
     double doodY = 300;
@@ -17,7 +20,8 @@ public class GameModel {
     Doodle dood;
     Platform basePlat;
     Platform topPlat;
-    ArrayList<Platform> platforms = new ArrayList<>();
+    private ArrayList<Platform> platforms = new ArrayList<>();
+    private IntegerProperty bounces = new SimpleIntegerProperty(0);
 
     public GameModel() {
         dood = new Doodle(doodX, doodY);
@@ -63,6 +67,7 @@ public class GameModel {
             if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0) {
                 velocity = reboundVel * plat.getBounceMulti();
                 plat.setForRemoval(); 
+                bounces.setValue(bounces.getValue() + 1);
             }
         }
 
@@ -142,6 +147,10 @@ public class GameModel {
             randoPlat = new BouncyPlatform(platX, platY);
         }
         return randoPlat;
+    }
+
+    public IntegerProperty getBounces(){
+        return bounces;
     }
 
 }
