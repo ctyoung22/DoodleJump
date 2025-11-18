@@ -61,7 +61,8 @@ public class GameModel {
 
         for(Platform plat : platforms) {
             if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0) {
-                velocity = reboundVel;
+                velocity = reboundVel * plat.getBounceMulti();
+                plat.setForRemoval(); 
             }
         }
 
@@ -127,7 +128,6 @@ public class GameModel {
 
     public Platform getRandoPlat(double platX, double platY){
         int randoNum = (int)(Math.random()*(6)+1);
-        System.out.println(randoNum);
         Platform randoPlat;
         if(randoNum > 3){
             randoPlat = new RegularPlatform(platX, platY);
@@ -143,4 +143,5 @@ public class GameModel {
         }
         return randoPlat;
     }
+
 }

@@ -60,6 +60,9 @@ public class GameController {
             if(!model.getPlatforms().contains(plat)) {
                 view.erasePlatform(plat);
             }
+            if(plat.getRemoval()){
+                view.erasePlatform(plat);
+            }
         }
     }
 }

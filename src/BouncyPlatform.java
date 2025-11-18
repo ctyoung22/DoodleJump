@@ -5,7 +5,7 @@ public class BouncyPlatform extends Platform{
     private double platY;
 
     public BouncyPlatform(double platX, double platY) {
-        super(platX, platY, Color.GREEN);
+        super(platX, platY, Color.GREEN, 1.5);
     }
 
 }
