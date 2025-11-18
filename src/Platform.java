@@ -35,4 +35,16 @@ public abstract class Platform extends Rectangle {
         return bounceRemove;
     }
 
+    public boolean getScrollable(){
+        return false;
+    }
+
+    public double getUpdatedX(){
+        return platX;
+    }
+
+    public void scrollPlat(double lowX, double highX){
+
+    }
+
 }

@@ -9,4 +9,21 @@ public class ScrollingPlatform extends Platform{
         super(platX, platY, Color.BLUE, 1);
     }
 
+    @Override
+    public boolean getScrollable(){
+        return true;
+    }
+
+    @Override
+    public void scrollPlat(double lowX, double highX){
+        platX = platX + dx;
+        if(platX < lowX || platX > highX){
+            dx = dx * -1;
+        }
+    }
+    @Override
+    public double getUpdatedX(){
+        return platX;
+    }
+
 }

@@ -82,7 +82,7 @@ public class GameModel {
         topPlat = platforms.get(platforms.size() - 1);
         while(getTopPlatY() < 500 && getTopPlatY() > - 100) {
             double lowX = Math.max(0, getTopPlatX() - 100);
-            double highX = Math.min(400, getTopPlatX() + 100);
+            double highX = Math.min(360, getTopPlatX() + 100);
             double newPlatX = Math.random() * (highX - lowX) + lowX;
 
             double lowY = getTopPlatY() - 20;

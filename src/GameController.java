@@ -63,6 +63,10 @@ public class GameController {
             if(plat.getRemoval()){
                 view.erasePlatform(plat);
             }
+            if(plat.getScrollable()){
+                plat.scrollPlat(0-plat.platX, 360-plat.platX);
+                plat.setLayoutX(plat.getUpdatedX());
+            }
         }
     }
 }
