@@ -1,6 +1,7 @@
-## Getting Started
+## Welcome to Doodle Jump
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Hi there! This is Conner Young and Josh Weeks, and welcome to our rough implementation of Doodle Jump! We chose to implement the game using a Model View Controller pattern.
+Other major design choices included using inheritance from an abstract Platform class to create all Platform variations, making both the Doodle and Platform class more or less wrapper classes of the Javafx Rectangle class, and using the IScrollable interface to give only Scrolling Platforms the methods related to movement across the screen. All major functionalities entailed by the assignment are implemented in this program. The only known bug is slightly irregular speed on the Scrolling Platforms when the scene scrolls up. We did not attempt any extra credit.
 
 ## Folder Structure
 
@@ -10,8 +11,6 @@ The workspace contains two folders by default, where:
 - `lib`: the folder to maintain dependencies
 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
 
 ## Dependency Management
 
