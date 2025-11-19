@@ -1,18 +1,13 @@
 // a view class for showing items to the game window
-import java.util.ArrayList;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class GameView extends BorderPane {
-    GamePane jumpPane;
-    Button quitBtn;
-    Platform topPlatform;
-    ArrayList<Platform> platforms = new ArrayList<>();
-    ScorePane scorePane;
+    private GamePane jumpPane;
+    private Button quitBtn;
+    private ScorePane scorePane;
     
     // creates a game pane, hbox, and score pane adding them to the gameView
     public GameView() {

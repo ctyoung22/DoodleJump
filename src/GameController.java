@@ -76,7 +76,7 @@ public class GameController {
                 view.erasePlatform(plat);
             }
             if(plat instanceof IScrollable){
-                ((IScrollable) plat).scrollPlat(0-plat.platX, 360-plat.platX);
+                ((IScrollable) plat).scrollPlat(0-plat.getPlatX(), 360-plat.getPlatX());
                 plat.setLayoutX(((IScrollable) plat).getUpdatedX());
             }
             if(plat instanceof DisappearingPlatform){

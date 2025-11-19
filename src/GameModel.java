@@ -8,22 +8,20 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class GameModel {
-    double doodX = 200;
-    double doodY = 300;
-    double basePlatX = 200;
-    double basePlatY = 350;
-    double topPlatX = 200;
-    double topPlatY = 350;
-    int doodDX = 1;
-    int doodDY = 1;
-    double gravity = 100;
-    double duration = 0.015;
-    double velocity = 0;
-    double reboundVel = -200;
-    boolean endState = false;
-    Doodle dood;
-    Platform basePlat;
-    Platform topPlat;
+    private double doodX = 200;
+    private double doodY = 300;
+    private double basePlatX = 200;
+    private double basePlatY = 350;
+    private double topPlatX = 200;
+    private double topPlatY = 350;
+    private double gravity = 100;
+    private double duration = 0.015;
+    private double velocity = 0;
+    private double reboundVel = -200;
+    private boolean endState = false;
+    private Doodle dood;
+    private Platform basePlat;
+    private Platform topPlat;
     private ArrayList<Platform> platforms = new ArrayList<>();
     private IntegerProperty score = new SimpleIntegerProperty(0);
 
@@ -65,12 +63,11 @@ public class GameModel {
         removePlatforms(viewHeight);
     }
 
-    // For moving doodle with arrow keys
-    // if statements are for wrap around
-    public void moveDoodle(double viewWidth, double viewHeight, int direction) {
+    // for moving doodle with arrow keys and implementing collision with platforms
+    private void moveDoodle(double viewWidth, double viewHeight, int direction) {
 
         for(Platform plat : platforms) {
-            if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0) {
+            if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0 && (doodY + dood.getHeight() - plat.getPlatY() < 15)){
                 velocity = reboundVel * plat.getBounceMulti();
                 if(plat instanceof DisappearingPlatform) {
                     ((DisappearingPlatform) plat).markForRemoval(); 
@@ -93,15 +90,15 @@ public class GameModel {
 
     // generates platforms based on random x and y positions and also 
     // generates random platforms
-    public void generatePlatforms() {
+    private void generatePlatforms() {
         topPlat = platforms.get(platforms.size() - 1);
-        while(getTopPlatY() < 500 && getTopPlatY() > - 100) {
-            double lowX = Math.max(0, getTopPlatX() - 100);
-            double highX = Math.min(360, getTopPlatX() + 100);
+        while(getTopPlatY() < 500 && getTopPlatY() > -100) {
+            double lowX = Math.max(0, getTopPlatX() - 150);
+            double highX = Math.min(360, getTopPlatX() + 150);
             double newPlatX = Math.random() * (highX - lowX) + lowX;
 
-            double lowY = getTopPlatY() - 20;
-            double highY = getTopPlatY() - 100;
+            double lowY = getTopPlatY() - 30;
+            double highY = getTopPlatY() - 80;
             double newPlatY = Math.random() * (highY - lowY) + lowY;
 
             topPlat = getRandoPlat(newPlatX, newPlatY);
@@ -114,7 +111,7 @@ public class GameModel {
     // removes platforms that fall below the window, and sets the
     // random platform y generation so that new platforms can be created
     // as they get removed
-    public void removePlatforms(double viewHeight) {
+    private void removePlatforms(double viewHeight) {
         Iterator<Platform> iter = platforms.iterator();
         while(iter.hasNext()) {
             Platform plat = iter.next();
@@ -142,7 +139,7 @@ public class GameModel {
         while(doodY < viewHeight/2) {
             for(Platform plat : platforms) {
                 plat.setLayoutY(plat.getLayoutY() + scrollAmount);
-                plat.platY += scrollAmount;
+                plat.setPlatY(plat.getPlatY() + scrollAmount);
             }
             doodY += scrollAmount;
         }
@@ -150,7 +147,7 @@ public class GameModel {
 
     // randomly generates a number and then generates a platform with
     // an atribute based on the random number
-    public Platform getRandoPlat(double platX, double platY){
+    private Platform getRandoPlat(double platX, double platY){
         int randoNum = (int)(Math.random()*(6)+1);
         Platform randoPlat;
         if(randoNum > 3){

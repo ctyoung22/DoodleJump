@@ -3,7 +3,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
 public class ScorePane extends HBox{
-    Label scoreLabel;
+    private Label scoreLabel;
 
     // sets the initial game score
     public ScorePane() {
