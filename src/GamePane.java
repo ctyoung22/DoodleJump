@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 
 public class GamePane extends BorderPane{
@@ -22,5 +24,14 @@ public class GamePane extends BorderPane{
 
     public void removePlatform(Platform plat) {
         getChildren().remove(plat);
+    }
+
+    public void addGameOverPane() {
+        StackPane gameOverPane = new StackPane();
+        gameOverPane.setPrefSize(100, 100);
+        Label gameOverLabel = new Label("Game Over");
+        gameOverLabel.setStyle("-fx-font-size: 48px; -fx-text-fill: red;");
+        gameOverPane.getChildren().add(gameOverLabel);
+        setCenter(gameOverPane);
     }
 }

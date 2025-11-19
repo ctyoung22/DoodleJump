@@ -1,6 +1,6 @@
 import javafx.scene.paint.Color;
 
-public class ScrollingPlatform extends Platform{
+public class ScrollingPlatform extends Platform implements IScrollable{
     private double platX;
     private double platY;
     private int dx = 1;
@@ -9,19 +9,17 @@ public class ScrollingPlatform extends Platform{
         super(platX, platY, Color.BLUE, 1);
     }
 
-    @Override
     public boolean getScrollable(){
         return true;
     }
 
-    @Override
     public void scrollPlat(double lowX, double highX){
         platX = platX + dx;
         if(platX < lowX || platX > highX){
             dx = dx * -1;
         }
     }
-    @Override
+
     public double getUpdatedX(){
         return platX;
     }

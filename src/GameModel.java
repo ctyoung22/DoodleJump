@@ -17,11 +17,12 @@ public class GameModel {
     double duration = 0.015;
     double velocity = 0;
     double reboundVel = -200;
+    boolean endState = false;
     Doodle dood;
     Platform basePlat;
     Platform topPlat;
     private ArrayList<Platform> platforms = new ArrayList<>();
-    private IntegerProperty bounces = new SimpleIntegerProperty(0);
+    private IntegerProperty score = new SimpleIntegerProperty(0);
 
     public GameModel() {
         dood = new Doodle(doodX, doodY);
@@ -66,8 +67,9 @@ public class GameModel {
         for(Platform plat : platforms) {
             if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0) {
                 velocity = reboundVel * plat.getBounceMulti();
-                plat.setForRemoval(); 
-                bounces.setValue(bounces.getValue() + 1);
+                if(plat instanceof DisappearingPlatform) {
+                    ((DisappearingPlatform) plat).markForRemoval(); 
+                }
             }
         }
 
@@ -107,6 +109,7 @@ public class GameModel {
             Platform plat = iter.next();
             if(plat.getPlatY() > viewHeight) {
                 iter.remove();
+                score.setValue(score.getValue() + 1);
                 if(platforms.size() < 10){
                     topPlatY = 0;
                 }
@@ -128,7 +131,7 @@ public class GameModel {
                 plat.platY += scrollAmount;
             }
             doodY += scrollAmount;
-        } 
+        }
     }
 
     public Platform getRandoPlat(double platX, double platY){
@@ -141,7 +144,7 @@ public class GameModel {
             randoPlat = new ScrollingPlatform(platX, platY);
         }
         else if(randoNum == 3){
-            randoPlat = new DissapearingPlatform(platX, platY);
+            randoPlat = new DisappearingPlatform(platX, platY);
         }
         else{
             randoPlat = new BouncyPlatform(platX, platY);
@@ -149,8 +152,15 @@ public class GameModel {
         return randoPlat;
     }
 
-    public IntegerProperty getBounces(){
-        return bounces;
+    public IntegerProperty getScore(){
+        return score;
+    }
+
+    public boolean checkEndState() {
+        if(doodY > 600) {
+            endState = true;
+        }
+        return endState;
     }
 
 }

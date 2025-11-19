@@ -34,6 +34,9 @@ public class GameController {
             model.scrollPlatforms(view.getGamePane().getHeight(), 0.5);
             updatePlatforms();
         }
+        if(model.checkEndState()) {
+            endGame();
+        }
     }
 
     public void setupKeyControls() {
@@ -62,18 +65,25 @@ public class GameController {
             if(!model.getPlatforms().contains(plat)) {
                 view.erasePlatform(plat);
             }
-            if(plat.getRemoval()){
-                view.erasePlatform(plat);
+            if(plat instanceof IScrollable){
+                ((IScrollable) plat).scrollPlat(0-plat.platX, 360-plat.platX);
+                plat.setLayoutX(((IScrollable) plat).getUpdatedX());
             }
-            if(plat.getScrollable()){
-                plat.scrollPlat(0-plat.platX, 360-plat.platX);
-                plat.setLayoutX(plat.getUpdatedX());
+            if(plat instanceof DisappearingPlatform){
+                if(((DisappearingPlatform) plat).getRemove()){
+                    view.erasePlatform(plat);
+                }
             }
         }
     }
 
     public void trackScore(){
-        IntegerProperty score = model.getBounces();
+        IntegerProperty score = model.getScore();
         score.addListener(ov -> view.updateScore(score.getValue()));
+    }
+
+    public void endGame() {
+        doodLoc.stop();
+        view.showGameOver();
     }
 }

@@ -56,4 +56,8 @@ public class GameView extends BorderPane {
         scorePane.updateLabel(score);
     }
 
+    public void showGameOver() {
+        jumpPane.addGameOverPane();
+    }
+
 }
