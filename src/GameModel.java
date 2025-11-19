@@ -5,22 +5,20 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class GameModel {
-    double doodX = 200;
-    double doodY = 300;
-    double basePlatX = 200;
-    double basePlatY = 350;
-    double topPlatX = 200;
-    double topPlatY = 350;
-    int doodDX = 1;
-    int doodDY = 1;
-    double gravity = 100;
-    double duration = 0.015;
-    double velocity = 0;
-    double reboundVel = -200;
-    boolean endState = false;
-    Doodle dood;
-    Platform basePlat;
-    Platform topPlat;
+    private double doodX = 200;
+    private double doodY = 300;
+    private double basePlatX = 200;
+    private double basePlatY = 350;
+    private double topPlatX = 200;
+    private double topPlatY = 350;
+    private double gravity = 100;
+    private double duration = 0.015;
+    private double velocity = 0;
+    private double reboundVel = -200;
+    private boolean endState = false;
+    private Doodle dood;
+    private Platform basePlat;
+    private Platform topPlat;
     private ArrayList<Platform> platforms = new ArrayList<>();
     private IntegerProperty score = new SimpleIntegerProperty(0);
 
@@ -62,10 +60,10 @@ public class GameModel {
 
     // For moving doodle with arrow keys
     // if statements are for wrap around
-    public void moveDoodle(double viewWidth, double viewHeight, int direction) {
+    private void moveDoodle(double viewWidth, double viewHeight, int direction) {
 
         for(Platform plat : platforms) {
-            if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0) {
+            if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0 && doodY + dood.getHeight() <= plat.getPlatY() + plat.getHeight()) {
                 velocity = reboundVel * plat.getBounceMulti();
                 if(plat instanceof DisappearingPlatform) {
                     ((DisappearingPlatform) plat).markForRemoval(); 
@@ -85,7 +83,7 @@ public class GameModel {
         }
     }
 
-    public void generatePlatforms() {
+    private void generatePlatforms() {
         topPlat = platforms.get(platforms.size() - 1);
         while(getTopPlatY() < 500 && getTopPlatY() > - 100) {
             double lowX = Math.max(0, getTopPlatX() - 100);
@@ -103,7 +101,7 @@ public class GameModel {
         }
     }
 
-    public void removePlatforms(double viewHeight) {
+    private void removePlatforms(double viewHeight) {
         Iterator<Platform> iter = platforms.iterator();
         while(iter.hasNext()) {
             Platform plat = iter.next();
@@ -128,13 +126,13 @@ public class GameModel {
         while(doodY < viewHeight/2) {
             for(Platform plat : platforms) {
                 plat.setLayoutY(plat.getLayoutY() + scrollAmount);
-                plat.platY += scrollAmount;
+                plat.setPlatY(plat.getPlatY() + scrollAmount);
             }
             doodY += scrollAmount;
         }
     }
 
-    public Platform getRandoPlat(double platX, double platY){
+    private Platform getRandoPlat(double platX, double platY){
         int randoNum = (int)(Math.random()*(6)+1);
         Platform randoPlat;
         if(randoNum > 3){

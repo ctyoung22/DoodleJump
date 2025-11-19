@@ -2,9 +2,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Platform extends Rectangle {
-    double platX;
-    double platY;
-    double bounceMulti;
+    private double platX;
+    private double platY;
+    private double bounceMulti;
 
     public Platform(double platX, double platY, Color color, double bounceMulti) {
         super(platX, platY, 40, 10);
@@ -26,7 +26,7 @@ public abstract class Platform extends Rectangle {
         return bounceMulti;
     }
 
-    public boolean getScrollable(){
-        return false;
+    public void setPlatY(double platY) {
+        this.platY = platY;
     }
 }

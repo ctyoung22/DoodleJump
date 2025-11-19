@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Shape;
 
 public class GamePane extends BorderPane{
-    Doodle dood;
+    private Doodle dood;
 
     public void addDoodle(Doodle dood) {
         this.dood = dood;
