@@ -14,18 +14,22 @@ public abstract class Platform extends Rectangle {
         this.bounceMulti = bounceMulti;
     }
 
+    // gets platform x position
     public double getPlatX() {
         return platX;
     }
 
+    // gets platform y position
     public double getPlatY() {
         return platY;
     }
 
+    // gets the platform jump multiplyer
     public double getBounceMulti(){
         return bounceMulti;
     }
 
+    // gets if the platform can move on the x axis or not
     public boolean getScrollable(){
         return false;
     }

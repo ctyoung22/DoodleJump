@@ -1,3 +1,4 @@
+// A platform class extending platform for platforms that increase bounce height
 import javafx.scene.paint.Color;
 
 public class BouncyPlatform extends Platform{

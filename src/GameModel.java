@@ -1,3 +1,6 @@
+// A game model class file for keeping track of different vaiables and properties
+// of different items
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -54,6 +57,8 @@ public class GameModel {
         return platforms;
     }
 
+    // updates the position position of the doodle while also generating new platforms
+    // when the doodle continues to climb higher, also remove platforms that drop too low
     public void updatePosition(double viewWidth, double viewHeight, int direction){
         moveDoodle(viewWidth, viewHeight, direction);
         generatePlatforms();
@@ -73,6 +78,7 @@ public class GameModel {
             }
         }
 
+        // the calculation for the doodle gravity
         velocity = velocity + gravity * duration;
         doodY = doodY + velocity * duration;
 
@@ -85,6 +91,8 @@ public class GameModel {
         }
     }
 
+    // generates platforms based on random x and y positions and also 
+    // generates random platforms
     public void generatePlatforms() {
         topPlat = platforms.get(platforms.size() - 1);
         while(getTopPlatY() < 500 && getTopPlatY() > - 100) {
@@ -103,6 +111,9 @@ public class GameModel {
         }
     }
 
+    // removes platforms that fall below the window, and sets the
+    // random platform y generation so that new platforms can be created
+    // as they get removed
     public void removePlatforms(double viewHeight) {
         Iterator<Platform> iter = platforms.iterator();
         while(iter.hasNext()) {
@@ -117,6 +128,8 @@ public class GameModel {
         }
     }
 
+    // checks if the doodle is at half of the window height
+    // allowing for scrolling
     public boolean scrollCheck(double viewHeight) {
         if(doodY < viewHeight/2){
             return true;
@@ -124,6 +137,7 @@ public class GameModel {
         return false;
     }
 
+    // scrolls the platforms when the doodle is at the halfway point of the window
     public void scrollPlatforms(double viewHeight, double scrollAmount) {
         while(doodY < viewHeight/2) {
             for(Platform plat : platforms) {
@@ -134,6 +148,8 @@ public class GameModel {
         }
     }
 
+    // randomly generates a number and then generates a platform with
+    // an atribute based on the random number
     public Platform getRandoPlat(double platX, double platY){
         int randoNum = (int)(Math.random()*(6)+1);
         Platform randoPlat;
@@ -152,10 +168,12 @@ public class GameModel {
         return randoPlat;
     }
 
+    // returns the score counter
     public IntegerProperty getScore(){
         return score;
     }
 
+    // checks if the doodle falls beyond the fail state threshold
     public boolean checkEndState() {
         if(doodY > 600) {
             endState = true;

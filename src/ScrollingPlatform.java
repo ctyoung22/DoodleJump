@@ -9,10 +9,12 @@ public class ScrollingPlatform extends Platform implements IScrollable{
         super(platX, platY, Color.BLUE, 1);
     }
 
+    // returns if the platform can move along the x axis
     public boolean getScrollable(){
         return true;
     }
 
+    // increments the x position based on if the platform touches the sidee
     public void scrollPlat(double lowX, double highX){
         platX = platX + dx;
         if(platX < lowX || platX > highX){
@@ -20,6 +22,7 @@ public class ScrollingPlatform extends Platform implements IScrollable{
         }
     }
 
+    // gets the updated x position
     public double getUpdatedX(){
         return platX;
     }
