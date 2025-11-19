@@ -8,13 +8,15 @@ public class ScrollingPlatform extends Platform implements IScrollable{
         super(platX, platY, Color.BLUE, 1);
     }
 
+    // increments the x position based on if the platform touches the sidee
     public void scrollPlat(double lowX, double highX){
         platX = platX + dx;
-        if(platX <= lowX || platX >= highX){
+        if(platX < lowX || platX > highX){
             dx = dx * -1;
         }
     }
 
+    // gets the updated x position
     public double getUpdatedX(){
         return platX;
     }

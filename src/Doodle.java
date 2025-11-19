@@ -1,3 +1,4 @@
+// A class for the doodle object extending Rectangle
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

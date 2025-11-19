@@ -1,3 +1,5 @@
+// GameController object for controlling and keeping track of things changed in game
+// and updated with every game frame
 import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
@@ -7,24 +9,28 @@ import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 public class GameController {
-    private GameModel model;
-    private GameView view;
-    private Timeline doodLoc;
-    private ArrayList<Platform> platforms = new ArrayList<>();
-    
+    GameModel model;
+    GameView view;
+    Timeline doodLoc;
+    Platform topPlatform;
+    ArrayList<Platform> platforms = new ArrayList<>();
+
+    // sets up what needs to tracked by the game controller
     public GameController(GameModel model, GameView view) {
         this.model = model;
         this.view = view;
         setQuitAction();
         view.getGamePane().addDoodle(model.getDoodle());
-        doodLoc = new Timeline(new KeyFrame(Duration.millis(20), e -> setupDoodleMovement()));
+        doodLoc = new Timeline(new KeyFrame(Duration.millis(20), e -> setupDoodleMovement())); // the gametimeline for the game cycles
         doodLoc.setCycleCount(Timeline.INDEFINITE);
         doodLoc.play();
         setupKeyControls();
         trackScore();
     }
 
-    private void setupDoodleMovement() {
+    // method for seting the doodles movements with updating the model and view
+    // also updates the platforms and checks for the scrolling effect
+    public void setupDoodleMovement() {
         model.updatePosition(view.getWidth(), view.getGamePane().getHeight(),0);
         view.updateView(model.getDoodX(), model.getDoodY());
         updatePlatforms();
@@ -32,12 +38,15 @@ public class GameController {
             model.scrollPlatforms(view.getGamePane().getHeight(), 0.5);
             updatePlatforms();
         }
+        // checks if the doodle falls above a pixel count ending the game
         if(model.checkEndState()) {
             endGame();
         }
     }
 
-    private void setupKeyControls() {
+    // sets up the arrow keys for left and right movements, also updated with the timeline
+    // to allow for holding down the button for faster movement
+    public void setupKeyControls() {
         view.setOnKeyPressed(e -> {
             if(e.getCode() == KeyCode.LEFT){
                 model.updatePosition(view.getWidth(), view.getHeight(), -5);
@@ -48,13 +57,16 @@ public class GameController {
         });
     }
 
-    private void setQuitAction() {
+    // sets up the quit button at the bottom of the window
+    public void setQuitAction() {
         view.getQuitBtn().setOnAction(e -> {
             System.exit(0);
         });
     }
 
-    private void updatePlatforms() {
+    // updates the platforms while also checking for their special atributes
+    // like scrolling platforms and disappearing platforms
+    public void updatePlatforms() {
         platforms = model.getPlatforms();
         for(Platform plat : platforms) {
             if(!view.getGamePane().getChildren().contains(plat)) {
@@ -75,12 +87,15 @@ public class GameController {
         }
     }
 
-    private void trackScore(){
+    // method for keeping track of the score at the top of the window, updated
+    // when a platform reaches the bottom of the window and is removed
+    public void trackScore(){
         IntegerProperty score = model.getScore();
         score.addListener(ov -> view.updateScore(score.getValue()));
     }
 
-    private void endGame() {
+    // method called when the game fail state occures
+    public void endGame() {
         doodLoc.stop();
         view.showGameOver();
     }

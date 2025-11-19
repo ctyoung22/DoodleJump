@@ -1,3 +1,4 @@
+// the game pane for adding and removing items in the pane
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -5,24 +6,29 @@ import javafx.scene.layout.StackPane;
 public class GamePane extends BorderPane{
     private Doodle dood;
 
+    // adds the doodle to the border pane
     public void addDoodle(Doodle dood) {
         this.dood = dood;
         getChildren().add(dood);
     }
 
+    // updates the x and y position of the doodle
     public void updateDoodlePosition(double doodX, double doodY) {
         dood.setLayoutX(doodX);
         dood.setLayoutY(doodY);
     }
 
+    // adds a platform to the border pane
     public void addPlatform(Platform plat) {
         getChildren().add(plat);
     }
 
+    // removes the platform from the border pane
     public void removePlatform(Platform plat) {
         getChildren().remove(plat);
     }
 
+    // adds the game over text when the fail state is reached
     public void addGameOverPane() {
         StackPane gameOverPane = new StackPane();
         gameOverPane.setPrefSize(100, 100);

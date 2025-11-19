@@ -1,3 +1,6 @@
+// A game model class file for keeping track of different vaiables and properties
+// of different items
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -52,18 +55,19 @@ public class GameModel {
         return platforms;
     }
 
+    // updates the position position of the doodle while also generating new platforms
+    // when the doodle continues to climb higher, also remove platforms that drop too low
     public void updatePosition(double viewWidth, double viewHeight, int direction){
         moveDoodle(viewWidth, viewHeight, direction);
         generatePlatforms();
         removePlatforms(viewHeight);
     }
 
-    // For moving doodle with arrow keys
-    // if statements are for wrap around
+    // for moving doodle with arrow keys and implementing collision with platforms
     private void moveDoodle(double viewWidth, double viewHeight, int direction) {
 
         for(Platform plat : platforms) {
-            if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0 && doodY + dood.getHeight() <= plat.getPlatY() + plat.getHeight()) {
+            if(dood.getBoundsInParent().intersects(plat.getBoundsInParent()) && velocity > 0 && (doodY + dood.getHeight() - plat.getPlatY() < 15)){
                 velocity = reboundVel * plat.getBounceMulti();
                 if(plat instanceof DisappearingPlatform) {
                     ((DisappearingPlatform) plat).markForRemoval(); 
@@ -71,6 +75,7 @@ public class GameModel {
             }
         }
 
+        // the calculation for the doodle gravity
         velocity = velocity + gravity * duration;
         doodY = doodY + velocity * duration;
 
@@ -83,15 +88,17 @@ public class GameModel {
         }
     }
 
+    // generates platforms based on random x and y positions and also 
+    // generates random platforms
     private void generatePlatforms() {
         topPlat = platforms.get(platforms.size() - 1);
-        while(getTopPlatY() < 500 && getTopPlatY() > - 100) {
-            double lowX = Math.max(0, getTopPlatX() - 100);
-            double highX = Math.min(360, getTopPlatX() + 100);
+        while(getTopPlatY() < 500 && getTopPlatY() > -100) {
+            double lowX = Math.max(0, getTopPlatX() - 150);
+            double highX = Math.min(360, getTopPlatX() + 150);
             double newPlatX = Math.random() * (highX - lowX) + lowX;
 
-            double lowY = getTopPlatY() - 20;
-            double highY = getTopPlatY() - 100;
+            double lowY = getTopPlatY() - 30;
+            double highY = getTopPlatY() - 80;
             double newPlatY = Math.random() * (highY - lowY) + lowY;
 
             topPlat = getRandoPlat(newPlatX, newPlatY);
@@ -101,6 +108,9 @@ public class GameModel {
         }
     }
 
+    // removes platforms that fall below the window, and sets the
+    // random platform y generation so that new platforms can be created
+    // as they get removed
     private void removePlatforms(double viewHeight) {
         Iterator<Platform> iter = platforms.iterator();
         while(iter.hasNext()) {
@@ -115,6 +125,8 @@ public class GameModel {
         }
     }
 
+    // checks if the doodle is at half of the window height
+    // allowing for scrolling
     public boolean scrollCheck(double viewHeight) {
         if(doodY < viewHeight/2){
             return true;
@@ -122,6 +134,7 @@ public class GameModel {
         return false;
     }
 
+    // scrolls the platforms when the doodle is at the halfway point of the window
     public void scrollPlatforms(double viewHeight, double scrollAmount) {
         while(doodY < viewHeight/2) {
             for(Platform plat : platforms) {
@@ -132,6 +145,8 @@ public class GameModel {
         }
     }
 
+    // randomly generates a number and then generates a platform with
+    // an atribute based on the random number
     private Platform getRandoPlat(double platX, double platY){
         int randoNum = (int)(Math.random()*(6)+1);
         Platform randoPlat;
@@ -150,10 +165,12 @@ public class GameModel {
         return randoPlat;
     }
 
+    // returns the score counter
     public IntegerProperty getScore(){
         return score;
     }
 
+    // checks if the doodle falls beyond the fail state threshold
     public boolean checkEndState() {
         if(doodY > 600) {
             endState = true;
