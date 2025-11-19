@@ -1,8 +1,8 @@
-/* Name: Josh Weeks, Your Name
+/* Name: Josh Weeks, Conner Young
  * Class: CSCI-3331-002
  * 11/15/2025
  * Project: Doodle Jump Game
- * Discription: An app class for starting the doodle jump game
+ * Description: An app class for starting the doodle jump game
  */
 
 import javafx.application.Application;
