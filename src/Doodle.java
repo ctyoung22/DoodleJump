@@ -2,8 +2,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Doodle extends Rectangle {
+    double doodX;
+    double doodY;
 
-    public Doodle() {
-        super(20, 40, Color.LIME);
+    public Doodle(double doodX, double doodY) {
+        super(20, 30, Color.LIME);
+        this.doodX = doodX;
+        this.doodY = doodY;
     }
 }
